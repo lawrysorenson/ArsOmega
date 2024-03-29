@@ -1,0 +1,25 @@
+{
+  "type": "arsomega:staff_with_crystal",
+  "pattern": [
+    "msm",
+    " i ",
+    " i "
+  ],
+  "key": {
+    "m": {
+      "item": "ars_nouveau:manipulation_essence"
+    },
+    "s": {
+      "item": "ars_nouveau:source_gem"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "arsomega:modular_staff"
+  },
+  "crystal": {
+    "item": "arsomega:source_gem_staff_crystal"
+  }
+}

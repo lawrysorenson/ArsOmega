@@ -2,6 +2,8 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.blocks.PortalBlockEntity;
+import com.dkmk100.arsomega.items.DimensionCrystal;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
@@ -14,9 +16,13 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 
 import java.util.List;
 
@@ -28,6 +34,7 @@ public class RitualOpenPortal extends AbstractRitual {
 
     @Override
     protected void tick() {
+        Logger logger = LogManager.getLogger();
         Level world = this.getWorld();
         if (world.isClientSide) {
             BlockPos pos = this.getPos();
@@ -50,26 +57,38 @@ public class RitualOpenPortal extends AbstractRitual {
             if (this.getProgress() > 20) {
                 BlockPos pos = this.getPos().above();
 
-
                 ItemStack crystal = this.getConsumedItems().get(0);
-                if(crystal!=null && crystal.hasTag() && crystal.getTag().contains("dimension")) {
-                    String targetDim = crystal.getTag().getString("dimension");
-                    if(world.dimension().location().toString() == targetDim){
+                String targetDim = DimensionCrystal.getTargetDim(crystal);
+                if(targetDim != null) {
+                    if(world.dimension().location().toString().equals(targetDim)){
+                        logger.error("Portal to same dimension tried to open at: "+pos.toShortString()+", dim: "+targetDim);
                         var players = world.getNearbyPlayers(TargetingConditions.forNonCombat(),null,new AABB(pos).inflate(12));
                         for (Player player : players){
                             PortUtil.sendMessage(player,"Error: cannot open portal from a dimension to itself!");
+                            PortUtil.sendMessage(player,"target dim: "+targetDim);
                         }
                     }
                     else {
-                        BlockEntity tile = world.getBlockEntity(pos);
                         world.setBlockAndUpdate(pos, RegistryHandler.PORTAL_BLOCK.get().defaultBlockState());
+                        BlockEntity tile = world.getBlockEntity(pos);
                         if (tile != null && tile instanceof PortalBlockEntity) {
-                            ((PortalBlockEntity) tile).targetDim = targetDim;
+                            ((PortalBlockEntity) tile).setTarget(targetDim);
+                        }
+                        else{
+                            logger.error("Failed to set portal target at: "+pos.toShortString());
+                            world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                            LevelUtil.spawnAtLocation(new ItemStack(RegistryHandler.DIMENSION_CRYSTAL.get()),0.0f,pos,world);
+                            var players = world.getNearbyPlayers(TargetingConditions.forNonCombat(),null,new AABB(pos).inflate(12));
+                            for (Player player : players){
+                                PortUtil.sendMessage(player,"ERROR: A bug occurred and the portal failed to open.");
+
+                            }
                         }
                     }
 
                 }
                 else{
+                    logger.error("Portal failed to open from invalid crystal at: "+pos.toShortString());
                     var players = world.getNearbyPlayers(TargetingConditions.forNonCombat(),null,new AABB(pos).inflate(12));
                     for (Player player : players){
                         PortUtil.sendMessage(player,"Error: cannot open portal, the provided crystal had an invalid dimension");

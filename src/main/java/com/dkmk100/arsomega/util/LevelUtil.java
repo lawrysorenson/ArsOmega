@@ -6,6 +6,7 @@ import com.hollingsworth.arsnouveau.common.network.PacketWarpPosition;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +20,9 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
@@ -29,6 +32,33 @@ import java.util.List;
 import java.util.function.Function;
 
 public class LevelUtil {
+
+    public static @Nullable BlockPos getFreePosNearby(BlockPos pos, Level world, boolean canReplace){
+
+        int maxOffset = 5;
+        int maxVertical = 2;
+
+        int x =0;
+        int y=0;
+        int z=0;
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos(pos.getX(), pos.getY(), pos.getZ());
+
+        for(int offset = 0; offset < maxOffset; offset++) {
+            for(Direction dir : Direction.values()){
+                if((dir == Direction.DOWN || dir == Direction.UP) && offset > maxVertical){
+                    continue;
+                }
+                mutable.setWithOffset(pos, dir.getStepX() * offset, dir.getStepY() * offset, dir.getStepZ() * offset);
+
+                BlockState state = world.getBlockState(mutable);
+                if(state.isAir() || state.getMaterial().isReplaceable() && canReplace){
+                    return new BlockPos(mutable);
+                }
+            }
+        }
+
+        return null;
+    }
 
     @Nullable
     public static ItemEntity spawnAtLocation(ItemStack stack, float yOffset, BlockPos pos, Level world) {

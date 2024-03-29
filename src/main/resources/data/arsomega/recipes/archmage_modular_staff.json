@@ -1,0 +1,31 @@
+{
+  "type": "arsomega:staff_upgrade",
+  "pattern": [
+    "ctc",
+    "gsg",
+    "wnw"
+  ],
+  "key": {
+    "n": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "t": {
+      "item": "ars_nouveau:wilden_tribute"
+    },
+    "w": {
+      "tag": "forge:logs/archwood"
+    },
+    "s": {
+      "item": "arsomega:mage_modular_staff"
+    },
+    "g": {
+      "item": "minecraft:gold_block"
+    },
+    "c": {
+      "item": "minecraft:chorus_fruit"
+    }
+  },
+  "result": {
+    "item": "arsomega:archmage_modular_staff"
+  }
+}

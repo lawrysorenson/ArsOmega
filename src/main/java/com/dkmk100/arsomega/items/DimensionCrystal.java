@@ -24,6 +24,14 @@ public class DimensionCrystal extends BasicItem {
         super(p_i48487_1_);
     }
 
+    public static @Nullable String getTargetDim(ItemStack stack){
+        if(stack!=null && stack.hasTag() && stack.getTag().contains("dimension")) {
+            String targetDim = stack.getTag().getString("dimension");
+            return targetDim;
+        }
+        return null;
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {

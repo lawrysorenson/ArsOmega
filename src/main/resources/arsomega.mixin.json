@@ -6,16 +6,15 @@
   "mixins": [
     "CustomFire",
     "AugmentCompatNew",
-    "DispelMixin",
     "DelayMixin",
-    "BlinkMixin",
     "BlockUtilMixin",
     "ScrollMixin",
     "EffectMixin",
     "PotionJarMixin",
     "durabilityCast.SpellResolverMixin",
     "durabilityCast.ReactiveCasterMixin",
-    "AnimationControllerMixin"
+    "AnimationControllerMixin",
+    "ItemBreakMixin"
   ],
   "client": [
     "ManaGUIMixin",

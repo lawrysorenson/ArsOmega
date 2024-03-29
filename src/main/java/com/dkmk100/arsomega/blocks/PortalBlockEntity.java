@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class PortalBlockEntity extends BlockEntity {
 
-    public String targetDim = "minecraft:overworld";
-    public BlockPos targetPos = this.getBlockPos();
+    private String targetDim = "minecraft:overworld";
+    private BlockPos targetPos = this.getBlockPos();
 
     public PortalBlockEntity(BlockEntityType<?> p_155228_, BlockPos p_155229_, BlockState p_155230_) {
         super(p_155228_, p_155229_, p_155230_);
@@ -22,6 +22,23 @@ public class PortalBlockEntity extends BlockEntity {
 
     public PortalBlockEntity(BlockPos p_155229_, BlockState p_155230_) {
         super(RegistryHandler.PortalType.get(), p_155229_, p_155230_);
+    }
+
+    public void setTarget(String target){
+        this.targetDim = target;
+        this.setChanged();
+    }
+    public void setTargetPos(BlockPos pos){
+        this.targetPos = new BlockPos(pos);
+        this.setChanged();
+    }
+
+    public BlockPos getTargetPos(){
+        return targetPos;
+    }
+
+    public String getTargetDim(){
+        return targetDim;
     }
 
     @Override

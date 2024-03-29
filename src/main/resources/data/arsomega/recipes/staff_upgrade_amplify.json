@@ -1,0 +1,53 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:staff_upgrade_base"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff_upgrade_amplify"
+  }
+}

@@ -48,6 +48,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -111,6 +112,11 @@ public class RegistryHandler{
     public static final RecipeSerializer<ProactiveEnchantRecipe> PROACTIVE_ENCHANT_SERIALIZER = new ProactiveEnchantRecipe.Serializer();
     public static final RecipeType<ProactiveEnchantRecipe> PROACTIVE_ENCHANT_TYPE = new CustomRecipeType();
 
+    public static final RecipeSerializer<StaffWithCrystalRecipe> STAFF_CRYSTAL_RECIPE_SERIALIZER = new StaffWithCrystalRecipe.Serializer();
+
+    public static final RecipeSerializer<StaffUpgradeRecipe> STAFF_UPGRADE_RECIPE_SERIALIZER = new StaffUpgradeRecipe.Serializer();
+
+
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ArsOmega.MOD_ID);
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ArsOmega.MOD_ID);
@@ -133,6 +139,8 @@ public class RegistryHandler{
         helper.register(new ResourceLocation("arsomega", "sigil"), SIGIL_TYPE);
         helper.register(new ResourceLocation("arsomega", "write_proactive"), WRITE_PROACTIVE_TYPE);
         helper.register(new ResourceLocation("arsomega", "proactive_enchant"), PROACTIVE_ENCHANT_TYPE);
+
+
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(WRITE_PROACTIVE_TYPE);
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(PROACTIVE_ENCHANT_TYPE);
     }
@@ -142,6 +150,9 @@ public class RegistryHandler{
         helper.register(new ResourceLocation("arsomega", "sigil"),SIGIL_SERIALIZER);
         helper.register(new ResourceLocation("arsomega", "write_proactive"),WRITE_PROACTIVE_SERIALIZER);
         helper.register(new ResourceLocation("arsomega", "proactive_enchant"),PROACTIVE_ENCHANT_SERIALIZER);
+
+        helper.register(new ResourceLocation("arsomega", "staff_with_crystal"),STAFF_CRYSTAL_RECIPE_SERIALIZER);
+        helper.register(new ResourceLocation("arsomega", "staff_upgrade"),STAFF_UPGRADE_RECIPE_SERIALIZER);
     }
 
     public static BasicTrigger USE_DEMON_STAFF;
@@ -503,18 +514,34 @@ public class RegistryHandler{
     static EntityType<? extends Entity> getArcaneGolem(){
         return CLAY_GOLEM_ARCANE.get();
     }
-    public static final RegistryObject<Block> MAGIC_CLAY_BLOCK = BLOCKS.register("magic_clay_block",() -> new Block(CLAY_PROPERTIES));
-    public static final RegistryObject<Block> MAGIC_CLAY_CARVED = BLOCKS.register("magic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MAGIC_CLAY_BLOCK.get(), RegistryHandler::getClayGolem));
+    public static final RegistryObject<CustomClay> MAGIC_CLAY_BLOCK = BLOCKS.register("magic_clay_block",() -> new CustomClay(CLAY_PROPERTIES, RegistryHandler::magic_clay_carved));
+    public static final RegistryObject<CarvedClay> MAGIC_CLAY_CARVED = BLOCKS.register("magic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false, MAGIC_CLAY_BLOCK.get(), RegistryHandler::getClayGolem));
 
-    public static final RegistryObject<Block> MARVELOUS_CLAY_BLOCK = BLOCKS.register("marvelous_clay_block",() -> new Block(CLAY_PROPERTIES));
-    public static final RegistryObject<Block> MARVELOUS_CLAY_CARVED = BLOCKS.register("marvelous_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MARVELOUS_CLAY_BLOCK.get(), RegistryHandler::getMarvelousGolem));
+    static CarvedClay magic_clay_carved(){
+        return MAGIC_CLAY_CARVED.get();
+    }
 
-    public static final RegistryObject<Block> MYSTIC_CLAY_BLOCK = BLOCKS.register("mystic_clay_block",() -> new Block(CLAY_PROPERTIES));
-    public static final RegistryObject<Block> MYSTIC_CLAY_CARVED = BLOCKS.register("mystic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MYSTIC_CLAY_BLOCK.get(), RegistryHandler::getMysticGolem));
 
-    public static final RegistryObject<Block> ARCANE_CLAY_BLOCK = BLOCKS.register("arcane_clay_block",() -> new Block(CLAY_PROPERTIES));
-    public static final RegistryObject<Block> ARCANE_CLAY_CARVED = BLOCKS.register("arcane_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false, ARCANE_CLAY_BLOCK.get(), RegistryHandler::getArcaneGolem));
+    public static final RegistryObject<Block> MARVELOUS_CLAY_BLOCK = BLOCKS.register("marvelous_clay_block",() -> new CustomClay(CLAY_PROPERTIES, RegistryHandler::marvelous_clay_carved));
+    public static final RegistryObject<CarvedClay> MARVELOUS_CLAY_CARVED = BLOCKS.register("marvelous_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MARVELOUS_CLAY_BLOCK.get(), RegistryHandler::getMarvelousGolem));
 
+    static CarvedClay marvelous_clay_carved(){
+        return MARVELOUS_CLAY_CARVED.get();
+    }
+
+    public static final RegistryObject<Block> MYSTIC_CLAY_BLOCK = BLOCKS.register("mystic_clay_block",() -> new CustomClay(CLAY_PROPERTIES, RegistryHandler::mystic_clay_carved));
+    public static final RegistryObject<CarvedClay> MYSTIC_CLAY_CARVED = BLOCKS.register("mystic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MYSTIC_CLAY_BLOCK.get(), RegistryHandler::getMysticGolem));
+
+    static CarvedClay mystic_clay_carved(){
+        return MYSTIC_CLAY_CARVED.get();
+    }
+
+    public static final RegistryObject<Block> ARCANE_CLAY_BLOCK = BLOCKS.register("arcane_clay_block",() -> new CustomClay(CLAY_PROPERTIES, RegistryHandler::arcane_clay_carved));
+    public static final RegistryObject<CarvedClay> ARCANE_CLAY_CARVED = BLOCKS.register("arcane_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false, ARCANE_CLAY_BLOCK.get(), RegistryHandler::getArcaneGolem));
+
+    static CarvedClay arcane_clay_carved(){
+        return ARCANE_CLAY_CARVED.get();
+    }
 
     public static final RegistryObject<Block> ENCHANTERS_WOOL = BLOCKS.register("enchanters_wool",() -> new Block(WOOL_PROPERTIES));
     public static final RegistryObject<Block> ARCANE_BLOOM = BLOCKS.register("arcane_bloom_crop",() -> new ArcaneBloomCrop());
@@ -616,25 +643,67 @@ public class RegistryHandler{
     public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,4,-2.4f,3, AugmentAmplify.INSTANCE,2));
     public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,8,-2.4f,4, AugmentAmplify.INSTANCE,3,true));
 
-    public static final RegistryObject<Item> MODULAR_STAFF = ITEMS.register("modular_staff", () ->
-            new ModularStaff(BasicItemTier.Staff,2,-2.4f, new StatsModifier()));
+    public static final RegistryObject<Item> NOVICE_MODULAR_STAFF = ITEMS.register("modular_staff", () ->
+            new ModularStaff(BasicItemTier.ModularStaff1,2,-2.4f, new StatsModifier(), 1,1, false));
+
+    public static final RegistryObject<Item> MAGE_MODULAR_STAFF = ITEMS.register("mage_modular_staff", () ->
+            new ModularStaff(BasicItemTier.ModularStaff2,2,-2.4f, new StatsModifier(), 2,3, false));
+
+    public static final RegistryObject<Item> ARCHMAGE_MODULAR_STAFF = ITEMS.register("archmage_modular_staff", () ->
+            new ModularStaff(BasicItemTier.ModularStaff3,2,-2.4f, new StatsModifier(), 3,5, true));
+
+    public static final RegistryObject<Item> ARCANE_MODULAR_STAFF = ITEMS.register("arcane_modular_staff", () ->
+            new ModularStaff(BasicItemTier.ModularStaff4, 2,-2.4f, new StatsModifier(), 4,7, true));
+
+
+
+    public static final RegistryObject<Item> IRON_STAFF_SPIKES = ITEMS.register("staff_head_spikes_iron", () ->
+            new BasicStaffHead(ITEM_PROPERTIES, "spikes", "iron", 2, new StatsModifier()));
+    public static final RegistryObject<Item> DIAMOND_STAFF_SPIKES = ITEMS.register("staff_head_spikes_diamond", () ->
+            new BasicStaffHead(ITEM_PROPERTIES, "spikes", "diamond", 4, new StatsModifier()));
+    public static final RegistryObject<Item> NETHERITE_STAFF_SPIKES = ITEMS.register("staff_head_spikes_netherite", () ->
+            new BasicStaffHead(ITEM_PROPERTIES, "spikes", "netherite", 5, new StatsModifier()));
+
+    public static final RegistryObject<Item> STAFF_UPGRADE_BASE = ITEMS.register("staff_upgrade_base", () ->
+            new BasicItem(ITEM_PROPERTIES));
+
+    public static final RegistryObject<Item> STAFF_UPGRADE_AMPLIFY = ITEMS.register("staff_upgrade_amplify", () ->
+            new BasicStaffUpgrade(ITEM_PROPERTIES, new StatsModifier().withEndAugment(AugmentAmplify.INSTANCE,1,false), 2, 0));
+
+    public static final RegistryObject<Item> STAFF_UPGRADE_AOE = ITEMS.register("staff_upgrade_aoe", () ->
+            new BasicStaffUpgrade(ITEM_PROPERTIES, new StatsModifier().withEndAugment(AugmentAOE.INSTANCE,1,false), 2, 0));
+
+    //TODO: damage upgrades
 
     static StatsModifier basicCrystalMod = new StatsModifier();
+    static StatsModifier advancedCrystalMod = new StatsModifier().withInnerAugment(AugmentAmplify.INSTANCE,1,2,false);
     static StatsModifier demonicCrystalMod = new StatsModifier().withInnerAugment(AugmentAmplify.INSTANCE,2,2,false);
 
 
     public static final RegistryObject<Item> SOURCE_GEM_STAFF_CRYSTAL = ITEMS.register("source_gem_staff_crystal", () ->
-            new BasicStaffCrystal(UNSTACKABLE, basicCrystalMod, ParticleColor.defaultParticleColor().getColor(), false));
-    public static final RegistryObject<Item> DEMON_GEM_STAFF_CRYSTAL = ITEMS.register("demon_gem_staff_crystal", () ->
-            new BasicStaffCrystal(UNSTACKABLE, demonicCrystalMod, Color.RED.getRGB(), true));
+            new BasicStaffCrystal(UNSTACKABLE, basicCrystalMod, new Color(200,80,150).getRGB(), 0f,0));
 
+    public static final RegistryObject<Item> ARCHMAGE_STAFF_CRYSTAL = ITEMS.register("advanced_source_gem_staff_crystal", () ->
+            new BasicStaffCrystal(UNSTACKABLE, advancedCrystalMod, new Color(210,10,255).getRGB(), 0.3f,0));
 
-    public static Supplier<List<Item>> getStaffCrystals(){
-        return () -> List.of(SOURCE_GEM_STAFF_CRYSTAL.get(),DEMON_GEM_STAFF_CRYSTAL.get());
+    public static final RegistryObject<Item> DEMONIC_STAFF_CRYSTAL = ITEMS.register("demon_gem_staff_crystal", () ->
+            new BasicStaffCrystal(UNSTACKABLE, demonicCrystalMod, new Color(255, 50, 0).getRGB(), 0.5f,2));
+
+    public static final RegistryObject<Item> CELESTIAL_STAFF_CRYSTAL = ITEMS.register("celestial_gem_staff_crystal", () ->
+            new BasicStaffCrystal(UNSTACKABLE, demonicCrystalMod, new Color(50, 200, 255).getRGB(), 0.3f,2));
+
+    public static List<Item> getStaffItems(){
+        return List.of(NOVICE_MODULAR_STAFF.get(), MAGE_MODULAR_STAFF.get(), ARCHMAGE_MODULAR_STAFF.get(), ARCANE_MODULAR_STAFF.get());
+    }
+    public static List<Item> getStaffCrystals(){
+        return List.of(SOURCE_GEM_STAFF_CRYSTAL.get(),ARCHMAGE_STAFF_CRYSTAL.get(),DEMONIC_STAFF_CRYSTAL.get(), CELESTIAL_STAFF_CRYSTAL.get());
     }
 
-    public static Supplier<List<Item>> getDyeableItems(){
-        return () -> List.of(MODULAR_STAFF.get(),SOURCE_GEM_STAFF_CRYSTAL.get(),DEMON_GEM_STAFF_CRYSTAL.get());
+    public static List<Item> getDyeableItems(){
+        List<Item> list = new ArrayList<Item>();
+        list.addAll(getStaffItems());
+        list.addAll(getStaffCrystals());
+        return list;
     }
 
     public static final RegistryObject<Item> POISON_FLOWER_ITEM = ITEMS.register("poison_flower", () -> new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES));

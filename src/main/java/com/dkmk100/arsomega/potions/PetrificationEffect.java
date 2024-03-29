@@ -5,28 +5,23 @@ import com.dkmk100.arsomega.blocks.StatueBlock;
 import com.dkmk100.arsomega.blocks.StatueTile;
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapability;
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
+import com.dkmk100.arsomega.util.StatueUtils;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
@@ -97,31 +92,28 @@ public class PetrificationEffect extends MobEffect {
             //spawn statue, will be swapped for a real statue later
             Level world = entity.getLevel();
             Direction dir = entity.getDirection();
-            BlockPos pos = entity.blockPosition();
-            BlockState state = RegistryHandler.STATUE.get().defaultBlockState().setValue(StatueBlock.FACING,dir);
-            world.setBlockAndUpdate(pos, state);
+            BlockPos rawPos = entity.blockPosition();
 
-            BlockEntity be = world.getBlockEntity(pos);
-            if(be instanceof StatueTile tile){
-                tile.setEntity(entity);
+            //statue placement
+            BlockPos pos = LevelUtil.getFreePosNearby(rawPos, world, true);
+            if(pos == null){
+                //backup option if no free space, just drop statue
+                ItemStack stack = StatueUtils.CreateStatueItem(entity);
+                LevelUtil.spawnAtLocation(stack, 0.5f, rawPos, world);
+            }
+            else {
+                BlockState state = RegistryHandler.STATUE.get().defaultBlockState().setValue(StatueBlock.FACING, dir);
+                world.setBlockAndUpdate(pos, state);
+
+                BlockEntity be = world.getBlockEntity(pos);
+                if (be instanceof StatueTile tile) {
+                    tile.setEntity(entity);
+                }
             }
 
             //kill entity
             entity.setHealth(1);
             entity.hurt(PETRIFY, Float.MAX_VALUE);
-
-            /*
-            ArmorStand ent = new ArmorStand(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());
-            entity.getCommandSenderWorld().addFreshEntity(ent);
-            ent.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.STONE, 1));
-            entity.getCommandSenderWorld().addFreshEntity(new ItemEntity(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.STONE, 1)));
-            ent.setPose(entity.getPose());
-            ent.setYHeadRot(entity.getYHeadRot());
-            ent.setYBodyRot(entity.yBodyRot);
-
-             */
         }
     }
 }

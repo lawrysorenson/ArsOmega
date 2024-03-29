@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.client.staff;
 
-import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.items.ModularStaff;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,20 +12,16 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.ars_nouveau.geckolib3.core.util.Color;
 import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoBone;
 import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoModel;
-import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 import software.bernie.ars_nouveau.geckolib3.renderers.geo.GeoItemRenderer;
 import software.bernie.ars_nouveau.geckolib3.util.EModelRenderCycle;
 import software.bernie.ars_nouveau.geckolib3.util.RenderUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 public class StaffRenderer<T extends ModularStaff> extends GeoItemRenderer<T> {
@@ -44,7 +39,7 @@ public class StaffRenderer<T extends ModularStaff> extends GeoItemRenderer<T> {
     @Override
     public void render(T animatable, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, ItemStack stack) {
         this.currentItemStack = stack;
-        for(ModularStaff.StaffModelPart part : ModularStaff.StaffModelPart.values()) {
+        for(ModularStaff.StaffPart part : ModularStaff.StaffPart.values()) {
             GeoModel model = this.modelProvider.getModel(staffModelProvider.getModel(stack, part));
             Color color = staffModelProvider.getColor(stack,part);
             ResourceLocation texture = staffModelProvider.getTexture(stack, part);
@@ -55,7 +50,7 @@ public class StaffRenderer<T extends ModularStaff> extends GeoItemRenderer<T> {
 
 
 
-    void render(ItemStack stack, T animatable, ModularStaff.StaffModelPart part, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, Color renderColor, GeoModel model, ResourceLocation texture){
+    void render(ItemStack stack, T animatable, ModularStaff.StaffPart part, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, Color renderColor, GeoModel model, ResourceLocation texture){
         List<Object> extraData = StaffAnimationController.getExtraData(stack, animatable, staffModelProvider, part);
         AnimationEvent animationEvent = new AnimationEvent(animatable, 0.0F, 0.0F, Minecraft.getInstance().getFrameTime(), false, extraData);
         this.dispatchedMat = poseStack.last().pose().copy();

@@ -28,7 +28,7 @@ public class CarvedClay extends HorizontalDirectionalBlock implements MagicAnima
     Block clayType;
     Supplier<EntityType<? extends Entity>> entityType;
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public CarvedClay(Properties p_i48440_1_,boolean autoConvert,Block clay, EntityType<? extends Entity> entity) {
+    public CarvedClay(Properties p_i48440_1_,boolean autoConvert, Block clay, EntityType<? extends Entity> entity) {
         super(p_i48440_1_);
         this.autoConvert = autoConvert;
         this.clayType=clay;

@@ -1,0 +1,28 @@
+{
+  "type": "arsomega:staff_upgrade",
+  "pattern": [
+    "dad",
+    "gcg",
+    "ded"
+  ],
+  "key": {
+    "g": {
+      "item": "arsomega:demonic_glowstone"
+    },
+    "e": {
+      "item": "arsomega:enchanted_demonic_gem"
+    },
+    "c": {
+      "item": "arsomega:advanced_source_gem_staff_crystal"
+    },
+    "d": {
+      "item": "arsomega:arcane_diamond"
+    },
+    "a": {
+      "item": "arsomega:glyph_advanced_amplify"
+    }
+  },
+  "result": {
+    "item": "arsomega:demon_gem_staff_crystal"
+  }
+}

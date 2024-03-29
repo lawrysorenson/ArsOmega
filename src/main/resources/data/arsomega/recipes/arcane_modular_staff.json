@@ -1,0 +1,31 @@
+{
+  "type": "arsomega:staff_upgrade",
+  "pattern": [
+    "ete",
+    "nsn",
+    "wbw"
+  ],
+  "key": {
+    "w": {
+      "item": "arsomega:glyph_advanced_amplify"
+    },
+    "n": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "t": {
+      "item": "minecraft:nether_star"
+    },
+    "e": {
+      "item": "arsomega:demonic_essence"
+    },
+    "s": {
+      "item": "arsomega:archmage_modular_staff"
+    },
+    "b": {
+      "item": "arsomega:enchanted_demonic_gem"
+    }
+  },
+  "result": {
+    "item": "arsomega:arcane_modular_staff"
+  }
+}

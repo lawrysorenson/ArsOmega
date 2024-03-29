@@ -1,0 +1,53 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:staff_head_spikes_iron"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff_head_spikes_diamond"
+  }
+}

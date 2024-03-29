@@ -50,15 +50,16 @@ public class PortalBlock extends Block implements EntityBlock {
             String target = "minecraft:overworld";
             BlockEntity tile = world.getBlockEntity(pos);
             if(tile!=null && tile instanceof PortalBlockEntity){
-                target = ((PortalBlockEntity)tile).targetDim;
+                target = ((PortalBlockEntity)tile).getTargetDim();
                 try {
                     ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(target));
                     ServerLevel dest = world.getServer().getLevel(registrykey);
                     if(world == dest){
-                        ArsOmega.LOGGER.error("portal to own world at pos: "+pos.toString());
+                        //ArsOmega.LOGGER.error("portal to own world at pos: "+pos.toString());
                     }
                     else {
-                        BlockPos targetPos = ((PortalBlockEntity) tile).targetPos;
+                        BlockPos targetPos = ((PortalBlockEntity) tile).getTargetPos();
+
                         ArsOmega.LOGGER.info("target pos: "+targetPos);
                         teleportEntity(dest, entity, targetPos, (ServerLevel) world);
                         //play in both worlds lol, why not

@@ -8,11 +8,20 @@ import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 
 public class ColoredItemModel<T extends Item & IAnimatable> extends AnimatedGeoModel<T> {
     String name;
+    String textureName;
 
     public ColoredItemModel(String name){
         super();
         this.name = name;
+        this.textureName = name;
     }
+
+    public ColoredItemModel(String name, String textureName){
+        super();
+        this.name = name;
+        this.textureName = textureName;
+    }
+
 
     @Override
     public ResourceLocation getModelResource(T o) {
@@ -21,7 +30,7 @@ public class ColoredItemModel<T extends Item & IAnimatable> extends AnimatedGeoM
 
     @Override
     public ResourceLocation getTextureResource(T o) {
-        return ResourceUtil.getItemTextureResource(name);
+        return ResourceUtil.getItemTextureResource(textureName);
     }
 
     @Override

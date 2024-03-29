@@ -6,5 +6,6 @@ public class ConfigHandler {
         return 12;
     }
 
+    public static boolean staffsLimitGlyphTier() { return false; }
 
 }

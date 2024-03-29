@@ -1,0 +1,25 @@
+{
+  "type": "arsomega:staff_upgrade",
+  "pattern": [
+    " e ",
+    "aca",
+    " g "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "e": {
+      "item": "ars_nouveau:abjuration_essence"
+    },
+    "c": {
+      "item": "arsomega:source_gem_staff_crystal"
+    },
+    "g": {
+      "item": "minecraft:diamond_pickaxe"
+    }
+  },
+  "result": {
+    "item": "arsomega:advanced_source_gem_staff_crystal"
+  }
+}

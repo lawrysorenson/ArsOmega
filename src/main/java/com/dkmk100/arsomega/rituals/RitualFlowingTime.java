@@ -21,10 +21,13 @@ import java.util.List;
 
 public class RitualFlowingTime extends AbstractRitual {
 
+    int range = 4;
+    int tickAmount = 40;
+    long activationDelay = 4L;//pretty fast cause small range and weak effects
+    int sourceCost = 25;//pretty low cause it activates a lot, this still makes it expensive
+
     protected void tick() {
-        int range = 4;
-        int tickAmount = 20;
-        long activationDelay = 5L;//pretty fast cause small range and weak effects
+
 
         Level world = this.getWorld();
         BlockPos pos = this.getPos();
@@ -76,8 +79,7 @@ public class RitualFlowingTime extends AbstractRitual {
 
 
     public int getSourceCost() {
-        //low cost only because it activates so often
-        return 250;
+        return sourceCost;
     }
 
     public boolean canConsumeItem(ItemStack stack) {

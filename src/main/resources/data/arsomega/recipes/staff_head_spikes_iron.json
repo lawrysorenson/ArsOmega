@@ -1,0 +1,33 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "minecraft:iron_block"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_sword"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff_head_spikes_iron"
+  }
+}

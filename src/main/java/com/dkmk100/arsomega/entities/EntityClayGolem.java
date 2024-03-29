@@ -148,7 +148,8 @@ public class EntityClayGolem extends AbstractGolem implements IDispellable, IToo
                                 && entity.position().distanceTo(player.position()) < 15));
             }
             else {
-                return entity instanceof Enemy && !(entity instanceof Creeper);
+                //TODO: should I make it avoid creepers again?
+                return entity instanceof Enemy /* && !(entity instanceof Creeper)*/;
             }
         }));
 
@@ -348,7 +349,7 @@ public class EntityClayGolem extends AbstractGolem implements IDispellable, IToo
                 list.add(  Component.literal("Owner Offline"));
             }
             else {
-                list.add(  Component.literal("Owner: " +owner.getName().getContents()));
+                list.add(  Component.literal("Owner: " +owner.getName().getString()));
             }
         }
         else{

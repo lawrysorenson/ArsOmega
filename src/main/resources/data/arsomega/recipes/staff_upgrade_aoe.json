@@ -1,0 +1,53 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:staff_upgrade_base"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:gunpowder"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:gunpowder"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:prismarine_crystals"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:prismarine_crystals"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff_upgrade_aoe"
+  }
+}

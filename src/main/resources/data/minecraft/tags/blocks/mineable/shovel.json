@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "arsomega:magic_clay_block",
+    "arsomega:magic_clay_carved",
+    "arsomega:marvelous_clay_block",
+    "arsomega:marvelous_clay_carved",
+    "arsomega:mystic_clay_block",
+    "arsomega:mystic_clay_carved",
+    "arsomega:arcane_clay_block",
+    "arsomega:arcane_clay_carved"
+  ]
+}

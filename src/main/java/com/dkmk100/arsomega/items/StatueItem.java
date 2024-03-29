@@ -59,16 +59,9 @@ public class StatueItem extends BasicBlockItem{
             CompoundTag blockTag = stack.getTag().getCompound("BlockEntityTag");
             CompoundTag entityTag = blockTag.getCompound("entity");
             String backupId = blockTag.getString("entity_backup_id");
-            UUID playerId = null;
-            CompoundTag playerProfile = null;
-            /*
-            if(blockTag.contains("player_id")&&blockTag.contains("player_info")) {
-                playerId = blockTag.getUUID("player_id");
-                playerProfile = blockTag.getCompound("player_info");
-            }
-             */
 
-            return StatueTile.getEntity(null,entityTag,backupId,level,StatueTile.StatuePlayerInfo.of(playerId,playerProfile));
+            //TODO: is the player necessary?
+            return StatueTile.getEntity(null,entityTag,backupId,level, null);
         }
         return null;
     }

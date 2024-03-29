@@ -5,5 +5,5 @@ import net.minecraft.world.item.ItemStack;
 import software.bernie.ars_nouveau.geckolib3.core.builder.Animation;
 
 public interface IStaffModel {
-    public Animation getAnimation(String name, ModularStaff staff, ItemStack stack, ModularStaff.StaffModelPart part);
+    public Animation getAnimation(String name, ModularStaff staff, ItemStack stack, ModularStaff.StaffPart part);
 }

@@ -134,7 +134,7 @@ public class ArsOmega
             ModPotions.RegisterPotionRecipes();
         });
 
-        for(var item : RegistryHandler.getDyeableItems().get()) {
+        for(var item : RegistryHandler.getDyeableItems()) {
             CauldronInteraction.WATER.put(item, CauldronInteraction.DYED_ITEM);
         }
 
@@ -179,8 +179,7 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_BLOCK.get(), RenderType.cutout());
 
         //todo: is there any way to get transucency here?
-        //even if only on fantastic graphics...
-
+        //even if only on fabulous graphics...
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.INFUSED_GLASS.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ENCHANTERS_LENS.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ENCHANTERS_GLASS.get(), RenderType.cutout());

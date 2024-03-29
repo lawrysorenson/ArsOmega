@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.items;
 import com.dkmk100.arsomega.client.renderer.ColoredItemRenderer;
 import com.dkmk100.arsomega.util.ResourceUtil;
 import com.dkmk100.arsomega.util.StatsModifier;
+import com.google.common.collect.ImmutableMultimap;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -11,6 +12,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -32,20 +36,27 @@ import software.bernie.ars_nouveau.geckolib3.util.GeckoLibUtil;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class BasicStaffCrystal extends ModularStaffCrystal implements DyeableLeatherItem, IAnimatable {
+public class BasicStaffCrystal extends ModularStaffComponent implements DyeableLeatherItem, IAnimatable {
     StatsModifier modifier;
-    boolean mixColors;
+    float bleed;
     int color;
-    public BasicStaffCrystal(Properties properties, StatsModifier modifier, int color, boolean mixColors) {
+    int extraUgprades;
+    public BasicStaffCrystal(Properties properties, StatsModifier modifier, int color, float colorBleed, int extraUgprades) {
         super(properties);
         this.modifier = modifier;
         this.color = color;
-        this.mixColors = mixColors;
+        this.bleed = colorBleed;
+        this.extraUgprades = extraUgprades;
     }
 
     @Override
-    public boolean onScribe(Level world, BlockPos pos, Player player, InteractionHand handIn, ItemStack thisStack) {
-        return false;
+    public ModularStaff.StaffComponentType getType(ItemStack component){
+        return ModularStaff.StaffComponentType.PART;
+    }
+
+    @Override
+    public ModularStaff.StaffPart getPartType() {
+        return ModularStaff.StaffPart.GEM;
     }
 
     @Override
@@ -54,18 +65,31 @@ public class BasicStaffCrystal extends ModularStaffCrystal implements DyeableLea
     }
 
     @Override
+    public ResourceLocation getTexture(ItemStack component, ItemStack staffStack, ModularStaff staffItem) {
+        return ResourceUtil.getItemTextureResource("staff_gem");
+    }
+
+
+    @Override
     public Color getColor(ItemStack crystal, ItemStack staffStack, ModularStaff staff){
         if(hasCustomColor(crystal)){
             return Color.ofOpaque(getColor(crystal));
         }
-        else if(mixColors) {
+        else if(bleed > 0) {
+            if(bleed > 1){
+                bleed = 1;
+            }
+
             ParticleColor color = staff.getSpellCaster(staffStack).getSpell().color;
 
             Color baseColor = Color.ofOpaque(getColor(crystal));
 
-            int r = (color.getRedInt() + baseColor.getRed()) / 2;
-            int g = (color.getGreenInt() + baseColor.getGreen()) / 2;
-            int b = (color.getBlueInt() + baseColor.getBlue()) / 2;
+            float baseMult = bleed;
+            float colorMult = 1f - baseMult;
+
+            int r = Math.round(colorMult * color.getRedInt() + baseMult * baseColor.getRed());
+            int g = Math.round(colorMult * color.getGreenInt() + baseMult * baseColor.getGreen());
+            int b = Math.round(colorMult * color.getBlueInt() + baseMult * baseColor.getBlue());
             return Color.ofRGB(r,g,b);
         }
         else{
@@ -73,6 +97,8 @@ public class BasicStaffCrystal extends ModularStaffCrystal implements DyeableLea
             return Color.ofOpaque(color.getColor());
         }
     }
+
+
 
     @Override
     public Spell modifySpell(Spell spell, ItemStack crystal, ItemStack staffStack, ModularStaff staff) {
@@ -84,6 +110,24 @@ public class BasicStaffCrystal extends ModularStaffCrystal implements DyeableLea
     @Override
     public void addBonusesTooltip(ItemStack stack, @Nullable Level worldIn, List<Component> components) {
         this.modifier.addTooltip(components);
+        if(extraUgprades > 0){
+            if(extraUgprades == 1) {
+                components.add(Component.literal("Adds 1 upgrade slot."));
+            }
+            else{
+                components.add(Component.literal("Adds " + extraUgprades + "upgrade slots."));
+            }
+        }
+    }
+
+    @Override
+    public void addExtraAttributes(EquipmentSlot slot, ItemStack stack, ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes) {
+
+    }
+
+    @Override
+    public int getExtraUpgrades() {
+        return extraUgprades;
     }
 
     @Override

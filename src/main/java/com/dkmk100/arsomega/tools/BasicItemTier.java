@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.tools;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Items;
@@ -8,6 +9,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum BasicItemTier implements Tier {
+    ModularStaff1(2, 512, 8.0f, 0F, 12, () -> {return Ingredient.of(Items.IRON_INGOT);}),
+    ModularStaff2(3, 1024, 8.0f, 1F, 14, () -> {return Ingredient.of(Items.DIAMOND);}),
+    ModularStaff3(4, 1536, 8.0f, 2F, 15, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
+    ModularStaff4(4, 2048, 8.0f, 3F, 16, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
+
     Staff(3, -1, 8.0f, 4F, 10, () -> {return Ingredient.of(ItemsRegistry.SOURCE_GEM);}),
     Staff2(4, -1, 9.0f, 5F, 12, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
     Staff3(4, -1, 10.0f, 6F, 16, () -> {return Ingredient.of(Items.NETHER_STAR);})

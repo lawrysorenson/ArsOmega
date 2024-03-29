@@ -1,24 +1,17 @@
 package com.dkmk100.arsomega.client.staff;
 
-import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.items.ModularStaff;
 import com.dkmk100.arsomega.util.IStaffModel;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import software.bernie.ars_nouveau.geckolib3.core.AnimationState;
-import software.bernie.ars_nouveau.geckolib3.core.IAnimatableModel;
-import software.bernie.ars_nouveau.geckolib3.core.PlayState;
 import software.bernie.ars_nouveau.geckolib3.core.builder.Animation;
 import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.ars_nouveau.geckolib3.core.builder.ILoopType;
 import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
 import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.ars_nouveau.geckolib3.core.keyframe.*;
 import software.bernie.ars_nouveau.geckolib3.core.molang.MolangParser;
 import software.bernie.ars_nouveau.geckolib3.core.processor.IBone;
 import software.bernie.ars_nouveau.geckolib3.core.snapshot.BoneSnapshot;
-import software.bernie.ars_nouveau.geckolib3.core.util.Axis;
-import software.bernie.ars_nouveau.shadowed.eliotlash.mclib.math.IValue;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,9 +19,9 @@ import java.util.stream.Collectors;
 
 public class StaffAnimationController<T extends ModularStaff> extends AnimationController<T> {
     boolean justStopped = false;
-    ModularStaff.StaffModelPart myPart;
+    ModularStaff.StaffPart myPart;
 
-    public StaffAnimationController(T animatable, String name, float transitionLengthTicks, IAnimationPredicate<T> animationPredicate, ModularStaff.StaffModelPart part) {
+    public StaffAnimationController(T animatable, String name, float transitionLengthTicks, IAnimationPredicate<T> animationPredicate, ModularStaff.StaffPart part) {
         super(animatable,name,transitionLengthTicks,animationPredicate);
         myPart = part;
     }
@@ -38,11 +31,11 @@ public class StaffAnimationController<T extends ModularStaff> extends AnimationC
         ItemStack stack = (ItemStack) data.get(0);
         ModularStaff item = (ModularStaff) data.get(1);
         IStaffModel model = (IStaffModel) data.get(2);
-        ModularStaff.StaffModelPart part = (ModularStaff.StaffModelPart) data.get(3);
+        ModularStaff.StaffPart part = (ModularStaff.StaffPart) data.get(3);
         this.setAnimation(builder,model,part,item,stack);
     }
 
-    public static List<Object> getExtraData(ItemStack stack, ModularStaff item, IStaffModel model, ModularStaff.StaffModelPart part){
+    public static List<Object> getExtraData(ItemStack stack, ModularStaff item, IStaffModel model, ModularStaff.StaffPart part){
         List<Object> data = new ArrayList<>();
         data.add(stack);
         data.add(item);
@@ -51,7 +44,7 @@ public class StaffAnimationController<T extends ModularStaff> extends AnimationC
         return data;
     }
 
-    public void setAnimation(AnimationBuilder builder, IStaffModel model, ModularStaff.StaffModelPart part, ModularStaff item, ItemStack stack) {
+    public void setAnimation(AnimationBuilder builder, IStaffModel model, ModularStaff.StaffPart part, ModularStaff item, ItemStack stack) {
         if (part != myPart) {
             return;
         }
@@ -92,7 +85,7 @@ public class StaffAnimationController<T extends ModularStaff> extends AnimationC
     @Override
     public void process(double tick, AnimationEvent<T> event, List<IBone> modelRendererList, Map<String, Pair<IBone, BoneSnapshot>> boneSnapshotCollection, MolangParser parser, boolean crashWhenCantFindBone) {
         var data = event.getExtraData();
-        ModularStaff.StaffModelPart part = (ModularStaff.StaffModelPart) data.get(3);
+        ModularStaff.StaffPart part = (ModularStaff.StaffPart) data.get(3);
         if(part != myPart){
             return;
         }

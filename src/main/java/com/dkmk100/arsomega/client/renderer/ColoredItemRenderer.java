@@ -22,14 +22,15 @@ import software.bernie.ars_nouveau.geckolib3.util.EModelRenderCycle;
 import java.util.Collections;
 
 public class ColoredItemRenderer<T extends Item & IAnimatable, DyeableLeatherItem> extends GeoItemRenderer<T> {
-    String name;
 
     public ColoredItemRenderer(String name) {
-        this(new ColoredItemModel<>(name),name);
+        this(new ColoredItemModel<>(name));
     }
-    public ColoredItemRenderer(AnimatedGeoModel modelProvider, String name) {
+    public ColoredItemRenderer(String name, String textureName) {
+        this(new ColoredItemModel<>(name, textureName));
+    }
+    public ColoredItemRenderer(AnimatedGeoModel modelProvider) {
         super(modelProvider);
-        this.name = name;
     }
 
     @Override
@@ -52,7 +53,12 @@ public class ColoredItemRenderer<T extends Item & IAnimatable, DyeableLeatherIte
     }
 
     Color getRenderColor(T animatable, ItemStack stack){
-        int color = ((net.minecraft.world.item.DyeableLeatherItem) animatable).getColor(stack);
-        return Color.ofOpaque(color);
+        if(animatable instanceof net.minecraft.world.item.DyeableLeatherItem dyeable) {
+            int color = dyeable.getColor(stack);
+            return Color.ofOpaque(color);
+        }
+        else{
+            return Color.WHITE;
+        }
     }
 }

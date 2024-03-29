@@ -1,0 +1,25 @@
+{
+  "type": "arsomega:staff_upgrade",
+  "pattern": [
+    "beb",
+    "gsg",
+    "ggg"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:diamond"
+    },
+    "e": {
+      "item": "ars_nouveau:conjuration_essence"
+    },
+    "s": {
+      "item": "arsomega:modular_staff"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "arsomega:mage_modular_staff"
+  }
+}

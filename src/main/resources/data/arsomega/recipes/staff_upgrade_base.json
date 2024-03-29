@@ -1,0 +1,33 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "minecraft:iron_block"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff_upgrade_base"
+  }
+}

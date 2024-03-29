@@ -5,46 +5,36 @@ import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
 import com.dkmk100.arsomega.glyphs.AugmentRandomizeColor;
 import com.dkmk100.arsomega.items.CursedPendant;
-import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.event.DispelEvent;
 import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
 import com.hollingsworth.arsnouveau.api.event.SpellCastEvent;
 import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
-import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
-import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
-import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
-import com.hollingsworth.arsnouveau.common.util.PortUtil;
-import net.minecraft.client.gui.screens.social.PlayerEntry;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
- 
-  
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -262,6 +252,14 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void TeleportPearl(EntityTeleportEvent.EnderPearl e){
+        LivingEntity entity = e.getPlayer();
+        if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public static void entityTick(final LivingEvent.LivingTickEvent event){
         if (event.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
             event.getEntity().baseTick();//so as to not break things like effects counting down logic
@@ -323,6 +321,20 @@ public class CommonEvents {
                 e.setCanceled(true);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void dispelEvent(DispelEvent.Pre event){
+
+        if(event.rayTraceResult.getType() == HitResult.Type.ENTITY && event.rayTraceResult instanceof EntityHitResult rayTraceResult){
+            if (rayTraceResult.getEntity() instanceof LivingEntity entity) {
+                if(entity.hasEffect(ModPotions.DISPELLANT.get())) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+
+
     }
 
     @SubscribeEvent
