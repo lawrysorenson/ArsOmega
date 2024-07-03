@@ -82,7 +82,7 @@ public class DiamondGlyph extends TierFourEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 10000*10; // 10 jars are needed for one cast
+        return 10000*30; // 30 jars are needed for one cast
     }
 
     @Override
