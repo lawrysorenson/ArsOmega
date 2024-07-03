@@ -53,18 +53,7 @@ public class DiamondGlyph extends TierFourEffect {
             }
 
             BlockState state = Blocks.DIRT.defaultBlockState();
-            if (!canSummon(shooter)) {
-                if (amp > 30 + cost && tier >= 7) {
-                    state = Blocks.CHISELED_RED_SANDSTONE.defaultBlockState();
-                } else if(amp > 20 && tier >= 6) {
-                    state = Blocks.RED_SAND.defaultBlockState();
-                }else if(amp > 16 && tier >= 4) {
-                    state = Blocks.SANDSTONE.defaultBlockState();
-                }
-                else{
-                    state = Blocks.SAND.defaultBlockState();
-                }
-            } else if (amp > 30 + cost && tier >= 7) {
+            if (amp > 30 + cost && tier >= 7) {
                 state = Blocks.ANCIENT_DEBRIS.defaultBlockState();
             } else if (amp > 25 + cost && tier >= 6) {
                 state = RegistryHandler.ALCHEMICAL_DIAMOND_ORE.get().defaultBlockState();
@@ -82,9 +71,9 @@ public class DiamondGlyph extends TierFourEffect {
                 state = Blocks.IRON_ORE.defaultBlockState();
             } else if (amp > 1 + cost && tier >= 1) {
                 state = Blocks.COPPER_ORE.defaultBlockState();
-            } else if (amp > 0) {
+            } else if (amp > 0 + cost) {
                 state = Blocks.COAL_BLOCK.defaultBlockState();
-            } else if (amp > -1) {
+            } else if (amp > -1 + cost) {
                 state = Blocks.COAL_ORE.defaultBlockState();
             }
             world.setBlockAndUpdate(pos, state);
@@ -93,7 +82,7 @@ public class DiamondGlyph extends TierFourEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 650;
+        return 10000*10; // 10 jars are needed for one cast
     }
 
     @Override
@@ -104,7 +93,7 @@ public class DiamondGlyph extends TierFourEffect {
     @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
         super.buildConfig(builder);
-        this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, copper, iron, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",6,0,10);
+        this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, copper, iron, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",7,0,10);
         this.extraAmpCost = builder.comment("The extra power level required for each tier, a linear value. Numbers larger than 5 or smaller than -5 can break progression, so be careful.").defineInRange("extraAmpCost",0,-20,20);
         this.focusBonus = builder.comment("How many levels of amplify the focus of alchemy is worth").defineInRange("focusBonus",5,0,20);
         this.advancedFocusBonus = builder.comment("How many levels of amplify the advanced focus of alchemy is worth. Should be higher than the normal focus value.").defineInRange("advancedFocusBonus",10,0,20);

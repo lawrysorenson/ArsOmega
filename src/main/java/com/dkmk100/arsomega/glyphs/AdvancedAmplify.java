@@ -22,22 +22,22 @@ public class AdvancedAmplify extends AbstractAugment {
 
     @Override
     public int getDefaultManaCost() {
-        return 200;
+        return 1200;
     }
 
     @Override
     public SpellTier defaultTier() {
-        return SpellTier.THREE;
+        return TierFourEffect.FOUR;
     }
 
     @Override
     public SpellStats.Builder applyModifiers(SpellStats.Builder builder, AbstractSpellPart spellPart) {
-        builder.addAmplification(2.0D);
+        builder.addAmplification(4.0D); // make advanced applify even stronger, otherwise worse than amplify 2
         return super.applyModifiers(builder, spellPart);
     }
 
     @Override
     public String getBookDescription() {
-        return "A more powerful version of amplify that is less mana efficient";
+        return "A more powerful version of amplify that is a lot less mana efficient";
     }
 }

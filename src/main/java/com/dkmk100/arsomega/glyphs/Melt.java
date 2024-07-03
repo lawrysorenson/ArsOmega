@@ -79,7 +79,7 @@ public class Melt extends AbstractEffect implements IDamageEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof Mob) {
             Mob living = (Mob) entity;
-            float damage = 2.0f;
+            float damage = 4.0f;
             Iterable<ItemStack> armor = living.getArmorSlots();
             for(ItemStack stack : armor){
                 if(!stack.isEmpty()){
@@ -92,12 +92,12 @@ public class Melt extends AbstractEffect implements IDamageEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 50;
+        return 1000;
     }
 
     @Override
     public SpellTier defaultTier() {
-        return SpellTier.TWO;
+        return SpellTier.THREE;
     }
 
     @Override
