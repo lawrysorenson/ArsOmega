@@ -2,6 +2,7 @@
   "type": "ars_nouveau:enchantment",
   "enchantment": "arsomega:durability_cast",
   "level": 2,
+  "sourceCost": 6000,
   "pedestalItems": [
     {
       "item": {
