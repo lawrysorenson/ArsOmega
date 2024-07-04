@@ -250,7 +250,7 @@ public class AdvancedGrow extends AbstractEffect {
     }
 
     public int getDefaultManaCost() {
-        return 170;
+        return 1000;
     }
 
     public SpellTier defaultTier() {
