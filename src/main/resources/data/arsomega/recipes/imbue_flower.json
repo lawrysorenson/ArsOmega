@@ -5,7 +5,7 @@
   },
   "output": "minecraft:wither_rose",
   "count": 1,
-  "source": 500,
+  "source": 2500,
   "pedestalItems": [
     {
       "item": {
